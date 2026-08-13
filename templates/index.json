@@ -208,12 +208,83 @@
         "subtext": "Save more with our hand-picked bundles",
         "color_scheme": ""
       }
+    },
+    "reviews_rail_A8x2kQ": {
+      "type": "reviews-rail",
+      "blocks": {
+        "review_Anita": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "title": "Works like a charm",
+            "body": "Finally an eco option that cleans as well as the chemical detergent I used for years, and it smells better.",
+            "author": "Anita",
+            "product_tag": "Almond Cacao Bar"
+          }
+        },
+        "review_Priya": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "title": "Best bars ever",
+            "body": "These bars are extremely delicious and keep me energized throughout my morning workouts.",
+            "author": "Priya",
+            "product_tag": "Peanut Butter Crunch Bar"
+          }
+        },
+        "review_Sunita": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "title": "Great quality and taste",
+            "body": "Very soft chew with a lovely chocolatey fragrance. Feels clean and premium.",
+            "author": "Sunita",
+            "product_tag": "Dark Chocolate Sea Salt Bar"
+          }
+        },
+        "review_Rohit": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "title": "Nutritious snack",
+            "body": "My kids absolutely love the coconut flavor. It's a clean snack with no hidden chemicals.",
+            "author": "Rohit S.",
+            "product_tag": "Coconut Cashew Bar"
+          }
+        },
+        "review_Verified": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "title": "Super soft & tasty",
+            "body": "Hard to find healthy bars that actually taste good. These have hit the sweet spot perfectly.",
+            "author": "Verified buyer",
+            "product_tag": "Berry Oats Bar"
+          }
+        }
+      },
+      "block_order": [
+        "review_Anita",
+        "review_Priya",
+        "review_Sunita",
+        "review_Rohit",
+        "review_Verified"
+      ],
+      "name": "Reviews Rail",
+      "settings": {
+        "kicker": "That's what they said",
+        "rating_text": "<b>4.8</b> from 8,000+ reviews",
+        "loved_by_text": "Loved by <b>12 lakh+</b> homes",
+        "duration": 50,
+        "color_scheme": ""
+      }
     }
   },
   "order": [
     "hero_nxPY6e",
     "product_grid_DjYdyh",
     "combo_builder_Q6edMF",
-    "bundles_9an4tx"
+    "bundles_9an4tx",
+    "reviews_rail_A8x2kQ"
   ]
 }

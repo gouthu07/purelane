@@ -1,0 +1,198 @@
+{{ 'section-reviews-rail.css' | asset_url | stylesheet_tag }}
+
+<section class="reviews-rail-section color-{{ section.settings.color_scheme }}" id="reviews" aria-label="{{ section.settings.kicker | default: 'Customer reviews' | escape }}">
+  <div class="page-width">
+    <div class="reviews-rail-section__header">
+      {%- if section.settings.kicker != blank -%}
+        <span class="reviews-rail-section__kicker">{{ section.settings.kicker | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.rating_text != blank -%}
+        <span class="reviews-rail-section__agg">
+          <span class="reviews-rail-section__stars-agg" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          {{ section.settings.rating_text }}
+        </span>
+      {%- endif -%}
+      {%- if section.settings.loved_by_text != blank -%}
+        <span class="reviews-rail-section__agg">
+          {{ section.settings.loved_by_text }}
+        </span>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="reviews-rail-section__rail" aria-label="Customer reviews" style="--marquee-duration: {{ section.settings.duration }}s;">
+    {%- capture reviews_cards -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.author != blank -%}
+          <article class="reviews-rail-section__card glass-2" {{ block.shopify_attributes }}>
+            {%- assign stars = block.settings.stars -%}
+            <div class="reviews-rail-section__stars" aria-label="{{ stars }} out of 5 stars">
+              <span aria-hidden="true">{%- for i in (1..stars) -%}&#9733;{%- endfor -%}</span>
+            </div>
+            
+            {%- if block.settings.title != blank -%}
+              <h3 class="reviews-rail-section__card-title">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+            
+            {%- if block.settings.body != blank -%}
+              <p class="reviews-rail-section__card-body">{{ block.settings.body | escape }}</p>
+            {%- endif -%}
+            
+            <div class="reviews-rail-section__who">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m5 13 4 4L19 7"/>
+              </svg>
+              <b class="reviews-rail-section__author">{{ block.settings.author | escape }}</b>
+              {%- if block.settings.product_tag != blank -%}
+                <span class="reviews-rail-section__tag">&middot; {{ block.settings.product_tag | escape }}</span>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="reviews-rail-section__track">
+        {{ reviews_cards }}
+        <div class="reviews-rail-section__duplicate" aria-hidden="true">
+          {{ reviews_cards }}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Reviews Rail",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker text",
+      "default": "That's what they said"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "<b>4.8</b> from 8,000+ reviews"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "loved_by_text",
+      "label": "Loved by text",
+      "default": "Loved by <b>12 lakh+</b> homes"
+    },
+    {
+      "type": "range",
+      "id": "duration",
+      "label": "Marquee scroll speed (seconds)",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 50
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Rating stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Review heading",
+          "default": "Works like a charm"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Review body",
+          "default": "Finally an eco option that cleans as well as the chemical detergent I used for years."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Customer name",
+          "default": "Verified buyer"
+        },
+        {
+          "type": "text",
+          "id": "product_tag",
+          "label": "Product tag",
+          "default": "Energy Bar"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews Rail",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "author": "Anita",
+            "title": "Works like a charm",
+            "body": "Finally an eco option that cleans as well as the chemical detergent I used for years, and it smells better.",
+            "product_tag": "Almond Cacao Bar"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Priya",
+            "title": "Best bars ever",
+            "body": "These bars are extremely delicious and keep me energized throughout my morning workouts.",
+            "product_tag": "Peanut Butter Crunch Bar"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Sunita",
+            "title": "Great quality and taste",
+            "body": "Very soft chew with a lovely chocolatey fragrance. Feels clean and premium.",
+            "product_tag": "Dark Chocolate Sea Salt Bar"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Rohit S.",
+            "title": "Nutritious snack",
+            "body": "My kids absolutely love the coconut flavor. It's a clean snack with no hidden chemicals.",
+            "product_tag": "Coconut Cashew Bar"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Verified buyer",
+            "title": "Super soft & tasty",
+            "body": "Hard to find healthy bars that actually taste good. These have hit the sweet spot perfectly.",
+            "product_tag": "Berry Oats Bar"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -4,23 +4,25 @@ class ComboBuilder extends HTMLElement {
     this.selects = this.querySelectorAll('[data-slot-select]');
     this.totalEl = this.querySelector('[data-combo-total]');
     this.addButton = this.querySelector('[data-combo-add]');
+    this.defaultButtonText = this.addButton?.textContent.trim() || 'Add combo to cart';
 
     this.selects.forEach((select) => {
       select.addEventListener('change', () => this.updateCombo());
     });
 
-    this.addButton.addEventListener('click', () => this.addComboToCart());
+    this.addButton?.addEventListener('click', () => this.addComboToCart());
   }
 
   getSelections() {
     return Array.from(this.selects).map((select) => {
       const option = select.options[select.selectedIndex];
-      if (!option || !option.value) return null;
+      if (!option || !option.value || option.disabled) return null;
+
       return {
         variantId: option.value,
-        price: option.dataset.price,
-        title: option.dataset.title,
-        image: option.dataset.image,
+        price: option.dataset.price || '$0.00',
+        title: option.dataset.title || '',
+        image: option.dataset.image || '',
       };
     });
   }
@@ -31,26 +33,46 @@ class ComboBuilder extends HTMLElement {
 
     selections.forEach((selection, index) => {
       const preview = this.querySelector(`[data-slot-preview="${index + 1}"]`);
-      if (selection) {
-        preview.innerHTML = `
-          <img src="${selection.image}" alt="${selection.title}" class="combo-slot__image">
-          <span class="combo-slot__price">${selection.price}</span>
-        `;
-      } else {
-        preview.innerHTML = '';
+      if (!preview) return;
+
+      if (!selection) {
+        preview.replaceChildren();
+        return;
       }
+
+      preview.replaceChildren();
+
+      if (selection.image) {
+        const image = document.createElement('img');
+        image.src = selection.image;
+        image.alt = selection.title;
+        image.className = 'combo-slot__image';
+        image.loading = 'lazy';
+        preview.append(image);
+      } else {
+        const placeholder = document.createElement('span');
+        placeholder.className = 'combo-slot__placeholder';
+        placeholder.setAttribute('aria-hidden', 'true');
+        preview.append(placeholder);
+      }
+
+      const price = document.createElement('span');
+      price.className = 'combo-slot__price';
+      price.textContent = selection.price;
+      preview.append(price);
     });
 
     if (bothSelected) {
-      const total = selections.reduce((sum, s) => {
-        const numeric = parseFloat(s.price.replace(/[^0-9.]/g, ''));
-        return sum + numeric;
+      const total = selections.reduce((sum, selection) => {
+        const numeric = parseFloat(selection.price.replace(/[^0-9.]/g, ''));
+        return sum + (Number.isNaN(numeric) ? 0 : numeric);
       }, 0);
-      this.totalEl.textContent = this.formatMoney(total);
-      this.addButton.disabled = false;
+
+      if (this.totalEl) this.totalEl.textContent = this.formatMoney(total);
+      if (this.addButton) this.addButton.disabled = false;
     } else {
-      this.totalEl.textContent = '—';
-      this.addButton.disabled = true;
+      if (this.totalEl) this.totalEl.textContent = '-';
+      if (this.addButton) this.addButton.disabled = true;
     }
   }
 
@@ -60,7 +82,7 @@ class ComboBuilder extends HTMLElement {
 
   async addComboToCart() {
     const selections = this.getSelections();
-    if (!selections[0] || !selections[1]) return;
+    if (!this.addButton || !selections[0] || !selections[1]) return;
 
     this.addButton.disabled = true;
     this.addButton.textContent = 'Adding...';
@@ -77,23 +99,26 @@ class ComboBuilder extends HTMLElement {
         }),
       });
 
-      if (response.ok) {
-        this.addButton.textContent = 'Added!';
-        setTimeout(() => {
-          this.addButton.textContent = 'Add combo to cart';
-          this.addButton.disabled = false;
-        }, 1500);
-      } else {
-        throw new Error('Failed to add to cart');
+      if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || 'Failed to add to cart');
       }
-    } catch (error) {
-      this.addButton.textContent = 'Error — try again';
+
+      this.addButton.textContent = 'Added!';
       setTimeout(() => {
-        this.addButton.textContent = 'Add combo to cart';
+        this.addButton.textContent = this.defaultButtonText;
+        this.addButton.disabled = false;
+      }, 1500);
+    } catch (error) {
+      this.addButton.textContent = 'Error - try again';
+      setTimeout(() => {
+        this.addButton.textContent = this.defaultButtonText;
         this.addButton.disabled = false;
       }, 1500);
     }
   }
 }
 
-customElements.define('combo-builder', ComboBuilder);
+if (!customElements.get('combo-builder')) {
+  customElements.define('combo-builder', ComboBuilder);
+}

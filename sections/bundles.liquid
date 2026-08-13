@@ -1,12 +1,12 @@
 {{ 'section-bundles.css' | asset_url | stylesheet_tag }}
 
-<div class="bundles-section color-{{ section.settings.color_scheme }}">
+<section class="bundles-section color-{{ section.settings.color_scheme }}" aria-label="{{ section.settings.heading | default: 'Bundles' | escape }}">
   <div class="bundles-section__header">
     {%- if section.settings.heading != blank -%}
-      <h2 class="bundles-section__heading">{{ section.settings.heading }}</h2>
+      <h2 class="bundles-section__heading">{{ section.settings.heading | escape }}</h2>
     {%- endif -%}
     {%- if section.settings.subtext != blank -%}
-      <p class="bundles-section__subtext">{{ section.settings.subtext }}</p>
+      <p class="bundles-section__subtext">{{ section.settings.subtext | escape }}</p>
     {%- endif -%}
   </div>
 
@@ -20,86 +20,139 @@
 
       {%- assign original_total = 0 -%}
       {%- assign variant_ids = '' -%}
+      {%- assign bundle_available = false -%}
+      {%- assign selected_count = 0 -%}
+      {%- assign unavailable_count = 0 -%}
 
       {%- if p1 != blank -%}
+        {%- assign selected_count = selected_count | plus: 1 -%}
         {%- assign original_total = original_total | plus: p1.price -%}
-        {%- assign variant_ids = variant_ids | append: p1.selected_or_first_available_variant.id | append: ',' -%}
+        {%- if p1.selected_or_first_available_variant.available -%}
+          {%- assign variant_ids = variant_ids | append: p1.selected_or_first_available_variant.id | append: ',' -%}
+        {%- else -%}
+          {%- assign unavailable_count = unavailable_count | plus: 1 -%}
+        {%- endif -%}
       {%- endif -%}
       {%- if p2 != blank -%}
+        {%- assign selected_count = selected_count | plus: 1 -%}
         {%- assign original_total = original_total | plus: p2.price -%}
-        {%- assign variant_ids = variant_ids | append: p2.selected_or_first_available_variant.id | append: ',' -%}
+        {%- if p2.selected_or_first_available_variant.available -%}
+          {%- assign variant_ids = variant_ids | append: p2.selected_or_first_available_variant.id | append: ',' -%}
+        {%- else -%}
+          {%- assign unavailable_count = unavailable_count | plus: 1 -%}
+        {%- endif -%}
       {%- endif -%}
       {%- if p3 != blank -%}
+        {%- assign selected_count = selected_count | plus: 1 -%}
         {%- assign original_total = original_total | plus: p3.price -%}
-        {%- assign variant_ids = variant_ids | append: p3.selected_or_first_available_variant.id | append: ',' -%}
+        {%- if p3.selected_or_first_available_variant.available -%}
+          {%- assign variant_ids = variant_ids | append: p3.selected_or_first_available_variant.id | append: ',' -%}
+        {%- else -%}
+          {%- assign unavailable_count = unavailable_count | plus: 1 -%}
+        {%- endif -%}
       {%- endif -%}
       {%- if p4 != blank -%}
+        {%- assign selected_count = selected_count | plus: 1 -%}
         {%- assign original_total = original_total | plus: p4.price -%}
-        {%- assign variant_ids = variant_ids | append: p4.selected_or_first_available_variant.id | append: ',' -%}
+        {%- if p4.selected_or_first_available_variant.available -%}
+          {%- assign variant_ids = variant_ids | append: p4.selected_or_first_available_variant.id | append: ',' -%}
+        {%- else -%}
+          {%- assign unavailable_count = unavailable_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if selected_count > 0 and unavailable_count == 0 -%}
+        {%- assign bundle_available = true -%}
       {%- endif -%}
 
       {%- assign discount_multiplier = 100 | minus: discount | times: 1.0 | divided_by: 100 -%}
       {%- assign bundle_price = original_total | times: discount_multiplier | round -%}
 
       <div class="bundle-card" {{ block.shopify_attributes }}>
-        <h3 class="bundle-card__title">{{ block.settings.bundle_title }}</h3>
+        <h3 class="bundle-card__title">{{ block.settings.bundle_title | escape }}</h3>
 
         <div class="bundle-card__items">
           {%- if p1 != blank -%}
-            {{ p1.featured_image | image_url: width: 150 | image_tag:
-              loading: 'lazy',
-              alt: p1.title,
-              class: 'bundle-card__image'
-            }}
+            {%- if p1.featured_image != blank -%}
+              {{ p1.featured_image | image_url: width: 150 | image_tag:
+                loading: 'lazy',
+                widths: '120, 150',
+                sizes: '60px',
+                alt: p1.title,
+                class: 'bundle-card__image'
+              }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'bundle-card__image placeholder' }}
+            {%- endif -%}
           {%- endif -%}
           {%- if p2 != blank -%}
-            {{ p2.featured_image | image_url: width: 150 | image_tag:
-              loading: 'lazy',
-              alt: p2.title,
-              class: 'bundle-card__image'
-            }}
+            {%- if p2.featured_image != blank -%}
+              {{ p2.featured_image | image_url: width: 150 | image_tag:
+                loading: 'lazy',
+                widths: '120, 150',
+                sizes: '60px',
+                alt: p2.title,
+                class: 'bundle-card__image'
+              }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'bundle-card__image placeholder' }}
+            {%- endif -%}
           {%- endif -%}
           {%- if p3 != blank -%}
-            {{ p3.featured_image | image_url: width: 150 | image_tag:
-              loading: 'lazy',
-              alt: p3.title,
-              class: 'bundle-card__image'
-            }}
+            {%- if p3.featured_image != blank -%}
+              {{ p3.featured_image | image_url: width: 150 | image_tag:
+                loading: 'lazy',
+                widths: '120, 150',
+                sizes: '60px',
+                alt: p3.title,
+                class: 'bundle-card__image'
+              }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'bundle-card__image placeholder' }}
+            {%- endif -%}
           {%- endif -%}
           {%- if p4 != blank -%}
-            {{ p4.featured_image | image_url: width: 150 | image_tag:
-              loading: 'lazy',
-              alt: p4.title,
-              class: 'bundle-card__image'
-            }}
+            {%- if p4.featured_image != blank -%}
+              {{ p4.featured_image | image_url: width: 150 | image_tag:
+                loading: 'lazy',
+                widths: '120, 150',
+                sizes: '60px',
+                alt: p4.title,
+                class: 'bundle-card__image'
+              }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'bundle-card__image placeholder' }}
+            {%- endif -%}
           {%- endif -%}
         </div>
 
         <ul class="bundle-card__list">
-          {%- if p1 != blank -%}<li>{{ p1.title }}</li>{%- endif -%}
-          {%- if p2 != blank -%}<li>{{ p2.title }}</li>{%- endif -%}
-          {%- if p3 != blank -%}<li>{{ p3.title }}</li>{%- endif -%}
-          {%- if p4 != blank -%}<li>{{ p4.title }}</li>{%- endif -%}
+          {%- if p1 != blank -%}<li>{{ p1.title | escape }}{% unless p1.selected_or_first_available_variant.available %} <span class="bundle-card__sold-out">(Sold out)</span>{% endunless %}</li>{%- endif -%}
+          {%- if p2 != blank -%}<li>{{ p2.title | escape }}{% unless p2.selected_or_first_available_variant.available %} <span class="bundle-card__sold-out">(Sold out)</span>{% endunless %}</li>{%- endif -%}
+          {%- if p3 != blank -%}<li>{{ p3.title | escape }}{% unless p3.selected_or_first_available_variant.available %} <span class="bundle-card__sold-out">(Sold out)</span>{% endunless %}</li>{%- endif -%}
+          {%- if p4 != blank -%}<li>{{ p4.title | escape }}{% unless p4.selected_or_first_available_variant.available %} <span class="bundle-card__sold-out">(Sold out)</span>{% endunless %}</li>{%- endif -%}
         </ul>
 
-        <div class="bundle-card__pricing">
-          <span class="bundle-card__original">{{ original_total | money }}</span>
-          <span class="bundle-card__price">{{ bundle_price | money }}</span>
-          <span class="bundle-card__save">Save {{ discount }}%</span>
-        </div>
+        {%- if selected_count > 0 -%}
+          <div class="bundle-card__pricing">
+            <span class="bundle-card__original">{{ original_total | money }}</span>
+            <span class="bundle-card__price">{{ bundle_price | money }}</span>
+            <span class="bundle-card__save">Save {{ discount }}%</span>
+          </div>
+        {%- endif -%}
 
         <button
           type="button"
           class="button bundle-card__add"
           data-bundle-add
           data-variant-ids="{{ variant_ids }}"
+          {% unless bundle_available %}disabled aria-disabled="true"{% endunless %}
         >
-          Add bundle to cart
+          {%- if bundle_available -%}Add bundle to cart{%- else -%}Sold out{%- endif -%}
         </button>
       </div>
     {%- endfor -%}
   </div>
-</div>
+</section>
 
 <script src="{{ 'bundles.js' | asset_url }}" defer="defer"></script>
 

@@ -1,12 +1,12 @@
 {{ 'section-product-grid.css' | asset_url | stylesheet_tag }}
 
-<div class="product-grid-section color-{{ section.settings.color_scheme }}">
+<section class="product-grid-section color-{{ section.settings.color_scheme }}" aria-label="{{ section.settings.heading | default: 'Product grid' | escape }}">
   <div class="product-grid-section__header">
     {%- if section.settings.heading != blank -%}
-      <h2 class="product-grid-section__heading">{{ section.settings.heading }}</h2>
+      <h2 class="product-grid-section__heading">{{ section.settings.heading | escape }}</h2>
     {%- endif -%}
     {%- if section.settings.subtext != blank -%}
-      <p class="product-grid-section__subtext">{{ section.settings.subtext }}</p>
+      <p class="product-grid-section__subtext">{{ section.settings.subtext | escape }}</p>
     {%- endif -%}
   </div>
 
@@ -21,21 +21,25 @@
                 loading: 'lazy',
                 widths: '300, 450, 600, 800',
                 sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
+                alt: product.title,
                 class: 'product-card__image'
               }}
             {%- else -%}
               {{ 'product-1' | placeholder_svg_tag: 'product-card__image placeholder' }}
             {%- endif -%}
+            {%- unless product.available -%}
+              <span class="product-card__badge">Sold out</span>
+            {%- endunless -%}
           </div>
           <div class="product-card__info">
-            <h3 class="product-card__title">{{ product.title }}</h3>
+            <h3 class="product-card__title">{{ product.title | escape }}</h3>
             <span class="product-card__price">{{ product.price | money }}</span>
           </div>
         </a>
       {%- endif -%}
     {%- endfor -%}
   </div>
-</div>
+</section>
 
 {% schema %}
 {

@@ -3,11 +3,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   buttons.forEach((button) => {
     button.addEventListener('click', async () => {
-      const variantIds = button.dataset.variantIds
+      const defaultButtonText = button.textContent.trim() || 'Add bundle to cart';
+      const variantIds = (button.dataset.variantIds || '')
         .split(',')
         .filter((id) => id.trim() !== '');
 
-      if (variantIds.length === 0) return;
+      if (button.disabled || variantIds.length === 0) return;
 
       button.disabled = true;
       button.textContent = 'Adding...';
@@ -21,19 +22,20 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({ items }),
         });
 
-        if (response.ok) {
-          button.textContent = 'Added!';
-          setTimeout(() => {
-            button.textContent = 'Add bundle to cart';
-            button.disabled = false;
-          }, 1500);
-        } else {
-          throw new Error('Failed to add bundle');
+        if (!response.ok) {
+          const message = await response.text();
+          throw new Error(message || 'Failed to add bundle');
         }
-      } catch (error) {
-        button.textContent = 'Error — try again';
+
+        button.textContent = 'Added!';
         setTimeout(() => {
-          button.textContent = 'Add bundle to cart';
+          button.textContent = defaultButtonText;
+          button.disabled = false;
+        }, 1500);
+      } catch (error) {
+        button.textContent = 'Error - try again';
+        setTimeout(() => {
+          button.textContent = defaultButtonText;
           button.disabled = false;
         }, 1500);
       }

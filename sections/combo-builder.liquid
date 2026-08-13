@@ -1,26 +1,33 @@
 {{ 'section-combo-builder.css' | asset_url | stylesheet_tag }}
 
-<div class="combo-section color-{{ section.settings.color_scheme }}">
+<section class="combo-section color-{{ section.settings.color_scheme }}" aria-label="{{ section.settings.heading | default: 'Combo builder' | escape }}">
   <div class="combo-section__header">
     {%- if section.settings.heading != blank -%}
-      <h2 class="combo-section__heading">{{ section.settings.heading }}</h2>
+      <h2 class="combo-section__heading">{{ section.settings.heading | escape }}</h2>
     {%- endif -%}
     {%- if section.settings.subtext != blank -%}
-      <p class="combo-section__subtext">{{ section.settings.subtext }}</p>
+      <p class="combo-section__subtext">{{ section.settings.subtext | escape }}</p>
     {%- endif -%}
   </div>
 
   <combo-builder class="combo-builder">
     <div class="combo-builder__slots">
       <div class="combo-slot" data-slot="1">
-        <span class="combo-slot__label">Pick your first bar</span>
-        <select class="combo-slot__select" data-slot-select="1">
+        <label class="combo-slot__label" for="ComboSelect-{{ section.id }}-1">Pick your first bar</label>
+        <select class="combo-slot__select" id="ComboSelect-{{ section.id }}-1" data-slot-select="1">
           <option value="">Select a product</option>
           {%- for block in section.blocks -%}
             {%- assign product = block.settings.product -%}
             {%- if product != blank -%}
-              <option value="{{ product.selected_or_first_available_variant.id }}" data-price="{{ product.price | money }}" data-title="{{ product.title | escape }}" data-image="{{ product.featured_image | image_url: width: 300 }}">
-                {{ product.title }}
+              {%- assign variant = product.selected_or_first_available_variant -%}
+              <option
+                value="{{ variant.id }}"
+                data-price="{{ product.price | money }}"
+                data-title="{{ product.title | escape }}"
+                {% if product.featured_image != blank %}data-image="{{ product.featured_image | image_url: width: 300 }}"{% endif %}
+                {% unless variant.available %}disabled{% endunless %}
+              >
+                {{ product.title | escape }}{% unless variant.available %} - Sold out{% endunless %}
               </option>
             {%- endif -%}
           {%- endfor -%}
@@ -31,14 +38,21 @@
       <div class="combo-plus">+</div>
 
       <div class="combo-slot" data-slot="2">
-        <span class="combo-slot__label">Pick your second bar</span>
-        <select class="combo-slot__select" data-slot-select="2">
+        <label class="combo-slot__label" for="ComboSelect-{{ section.id }}-2">Pick your second bar</label>
+        <select class="combo-slot__select" id="ComboSelect-{{ section.id }}-2" data-slot-select="2">
           <option value="">Select a product</option>
           {%- for block in section.blocks -%}
             {%- assign product = block.settings.product -%}
             {%- if product != blank -%}
-              <option value="{{ product.selected_or_first_available_variant.id }}" data-price="{{ product.price | money }}" data-title="{{ product.title | escape }}" data-image="{{ product.featured_image | image_url: width: 300 }}">
-                {{ product.title }}
+              {%- assign variant = product.selected_or_first_available_variant -%}
+              <option
+                value="{{ variant.id }}"
+                data-price="{{ product.price | money }}"
+                data-title="{{ product.title | escape }}"
+                {% if product.featured_image != blank %}data-image="{{ product.featured_image | image_url: width: 300 }}"{% endif %}
+                {% unless variant.available %}disabled{% endunless %}
+              >
+                {{ product.title | escape }}{% unless variant.available %} - Sold out{% endunless %}
               </option>
             {%- endif -%}
           {%- endfor -%}
@@ -55,7 +69,7 @@
       </button>
     </div>
   </combo-builder>
-</div>
+</section>
 
 <script src="{{ 'combo-builder.js' | asset_url }}" defer="defer"></script>
 

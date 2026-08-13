@@ -2,6 +2,7 @@
   padding: 4rem 2rem;
   max-width: 900px;
   margin: 0 auto;
+  overflow-wrap: anywhere;
 }
 
 .combo-section__header {
@@ -48,10 +49,17 @@
 }
 
 .combo-slot__select {
+  width: 100%;
+  min-height: 44px;
   padding: 0.65rem;
   border-radius: 6px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   font-size: 1rem;
+}
+
+.combo-slot__select:focus-visible {
+  outline: 0.2rem solid rgba(var(--color-foreground), 0.75);
+  outline-offset: 0.2rem;
 }
 
 .combo-slot__preview {
@@ -66,6 +74,15 @@
   height: 50px;
   object-fit: cover;
   border-radius: 6px;
+  background: #f4f4f4;
+}
+
+.combo-slot__placeholder {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  background: #f4f4f4;
+  flex: 0 0 auto;
 }
 
 .combo-slot__price {
@@ -98,6 +115,8 @@
 
 .combo-builder__add {
   margin-top: 0.5rem;
+  max-width: 100%;
+  white-space: normal;
 }
 
 .combo-builder__add:disabled {
@@ -106,10 +125,23 @@
 }
 
 @media screen and (max-width: 749px) {
+  .combo-section {
+    padding: 2.5rem 1.25rem;
+  }
   .combo-builder__slots {
     flex-direction: column;
   }
+  .combo-slot {
+    width: 100%;
+    max-width: 100%;
+  }
   .combo-plus {
     transform: rotate(90deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .combo-plus {
+    transition: none;
   }
 }

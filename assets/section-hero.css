@@ -33,6 +33,7 @@
   border-radius: 12px;
   margin: 3rem;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  overflow-wrap: anywhere;
 }
 
 .hero-section__content--left {
@@ -67,8 +68,15 @@
 
 .hero-section__button {
   width: fit-content;
+  max-width: 100%;
   padding: 1rem 2rem;
   font-size: 1rem;
+  text-align: center;
+}
+
+.hero-section__button--disabled {
+  opacity: 0.75;
+  cursor: default;
 }
 
 @media screen and (max-width: 989px) {
@@ -92,5 +100,8 @@
   }
   .hero-section__subtext {
     font-size: 1rem;
+  }
+  .hero-section__button {
+    white-space: normal;
   }
 }
