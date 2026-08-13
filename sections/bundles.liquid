@@ -1,0 +1,184 @@
+{{ 'section-bundles.css' | asset_url | stylesheet_tag }}
+
+<div class="bundles-section color-{{ section.settings.color_scheme }}">
+  <div class="bundles-section__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="bundles-section__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subtext != blank -%}
+      <p class="bundles-section__subtext">{{ section.settings.subtext }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="bundles-grid">
+    {%- for block in section.blocks -%}
+      {%- assign p1 = block.settings.product_1 -%}
+      {%- assign p2 = block.settings.product_2 -%}
+      {%- assign p3 = block.settings.product_3 -%}
+      {%- assign p4 = block.settings.product_4 -%}
+      {%- assign discount = block.settings.discount_percent -%}
+
+      {%- assign original_total = 0 -%}
+      {%- assign variant_ids = '' -%}
+
+      {%- if p1 != blank -%}
+        {%- assign original_total = original_total | plus: p1.price -%}
+        {%- assign variant_ids = variant_ids | append: p1.selected_or_first_available_variant.id | append: ',' -%}
+      {%- endif -%}
+      {%- if p2 != blank -%}
+        {%- assign original_total = original_total | plus: p2.price -%}
+        {%- assign variant_ids = variant_ids | append: p2.selected_or_first_available_variant.id | append: ',' -%}
+      {%- endif -%}
+      {%- if p3 != blank -%}
+        {%- assign original_total = original_total | plus: p3.price -%}
+        {%- assign variant_ids = variant_ids | append: p3.selected_or_first_available_variant.id | append: ',' -%}
+      {%- endif -%}
+      {%- if p4 != blank -%}
+        {%- assign original_total = original_total | plus: p4.price -%}
+        {%- assign variant_ids = variant_ids | append: p4.selected_or_first_available_variant.id | append: ',' -%}
+      {%- endif -%}
+
+      {%- assign discount_multiplier = 100 | minus: discount | times: 1.0 | divided_by: 100 -%}
+      {%- assign bundle_price = original_total | times: discount_multiplier | round -%}
+
+      <div class="bundle-card" {{ block.shopify_attributes }}>
+        <h3 class="bundle-card__title">{{ block.settings.bundle_title }}</h3>
+
+        <div class="bundle-card__items">
+          {%- if p1 != blank -%}
+            {{ p1.featured_image | image_url: width: 150 | image_tag:
+              loading: 'lazy',
+              alt: p1.title,
+              class: 'bundle-card__image'
+            }}
+          {%- endif -%}
+          {%- if p2 != blank -%}
+            {{ p2.featured_image | image_url: width: 150 | image_tag:
+              loading: 'lazy',
+              alt: p2.title,
+              class: 'bundle-card__image'
+            }}
+          {%- endif -%}
+          {%- if p3 != blank -%}
+            {{ p3.featured_image | image_url: width: 150 | image_tag:
+              loading: 'lazy',
+              alt: p3.title,
+              class: 'bundle-card__image'
+            }}
+          {%- endif -%}
+          {%- if p4 != blank -%}
+            {{ p4.featured_image | image_url: width: 150 | image_tag:
+              loading: 'lazy',
+              alt: p4.title,
+              class: 'bundle-card__image'
+            }}
+          {%- endif -%}
+        </div>
+
+        <ul class="bundle-card__list">
+          {%- if p1 != blank -%}<li>{{ p1.title }}</li>{%- endif -%}
+          {%- if p2 != blank -%}<li>{{ p2.title }}</li>{%- endif -%}
+          {%- if p3 != blank -%}<li>{{ p3.title }}</li>{%- endif -%}
+          {%- if p4 != blank -%}<li>{{ p4.title }}</li>{%- endif -%}
+        </ul>
+
+        <div class="bundle-card__pricing">
+          <span class="bundle-card__original">{{ original_total | money }}</span>
+          <span class="bundle-card__price">{{ bundle_price | money }}</span>
+          <span class="bundle-card__save">Save {{ discount }}%</span>
+        </div>
+
+        <button
+          type="button"
+          class="button bundle-card__add"
+          data-bundle-add
+          data-variant-ids="{{ variant_ids }}"
+        >
+          Add bundle to cart
+        </button>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+<script src="{{ 'bundles.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Bundles",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Curated bundles"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Save more with our hand-picked bundles"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bundle",
+      "name": "Bundle",
+      "settings": [
+        {
+          "type": "text",
+          "id": "bundle_title",
+          "label": "Bundle name",
+          "default": "Bundle name"
+        },
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "Product 1"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Product 2"
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "Product 3 (optional)"
+        },
+        {
+          "type": "product",
+          "id": "product_4",
+          "label": "Product 4 (optional)"
+        },
+        {
+          "type": "range",
+          "id": "discount_percent",
+          "label": "Discount %",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "default": 15
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Bundles",
+      "blocks": [
+        { "type": "bundle" },
+        { "type": "bundle" },
+        { "type": "bundle" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,115 @@
+.combo-section {
+  padding: 4rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.combo-section__header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.combo-section__heading {
+  font-size: 2.25rem;
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+}
+
+.combo-section__subtext {
+  font-size: 1.1rem;
+  opacity: 0.75;
+  margin: 0;
+}
+
+.combo-builder__slots {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.combo-slot {
+  flex: 1;
+  min-width: 220px;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.combo-slot__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.combo-slot__select {
+  padding: 0.65rem;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 1rem;
+}
+
+.combo-slot__preview {
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.combo-slot__image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.combo-slot__price {
+  font-weight: 600;
+}
+
+.combo-plus {
+  font-size: 1.75rem;
+  font-weight: 700;
+  opacity: 0.4;
+}
+
+.combo-builder__summary {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.combo-builder__total-label {
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+.combo-builder__total {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.combo-builder__add {
+  margin-top: 0.5rem;
+}
+
+.combo-builder__add:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media screen and (max-width: 749px) {
+  .combo-builder__slots {
+    flex-direction: column;
+  }
+  .combo-plus {
+    transform: rotate(90deg);
+  }
+}

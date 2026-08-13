@@ -1,0 +1,111 @@
+{{ 'section-combo-builder.css' | asset_url | stylesheet_tag }}
+
+<div class="combo-section color-{{ section.settings.color_scheme }}">
+  <div class="combo-section__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="combo-section__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subtext != blank -%}
+      <p class="combo-section__subtext">{{ section.settings.subtext }}</p>
+    {%- endif -%}
+  </div>
+
+  <combo-builder class="combo-builder">
+    <div class="combo-builder__slots">
+      <div class="combo-slot" data-slot="1">
+        <span class="combo-slot__label">Pick your first bar</span>
+        <select class="combo-slot__select" data-slot-select="1">
+          <option value="">Select a product</option>
+          {%- for block in section.blocks -%}
+            {%- assign product = block.settings.product -%}
+            {%- if product != blank -%}
+              <option value="{{ product.selected_or_first_available_variant.id }}" data-price="{{ product.price | money }}" data-title="{{ product.title | escape }}" data-image="{{ product.featured_image | image_url: width: 300 }}">
+                {{ product.title }}
+              </option>
+            {%- endif -%}
+          {%- endfor -%}
+        </select>
+        <div class="combo-slot__preview" data-slot-preview="1"></div>
+      </div>
+
+      <div class="combo-plus">+</div>
+
+      <div class="combo-slot" data-slot="2">
+        <span class="combo-slot__label">Pick your second bar</span>
+        <select class="combo-slot__select" data-slot-select="2">
+          <option value="">Select a product</option>
+          {%- for block in section.blocks -%}
+            {%- assign product = block.settings.product -%}
+            {%- if product != blank -%}
+              <option value="{{ product.selected_or_first_available_variant.id }}" data-price="{{ product.price | money }}" data-title="{{ product.title | escape }}" data-image="{{ product.featured_image | image_url: width: 300 }}">
+                {{ product.title }}
+              </option>
+            {%- endif -%}
+          {%- endfor -%}
+        </select>
+        <div class="combo-slot__preview" data-slot-preview="2"></div>
+      </div>
+    </div>
+
+    <div class="combo-builder__summary">
+      <span class="combo-builder__total-label">Combo total:</span>
+      <span class="combo-builder__total" data-combo-total>—</span>
+      <button type="button" class="button combo-builder__add" data-combo-add disabled>
+        Add combo to cart
+      </button>
+    </div>
+  </combo-builder>
+</div>
+
+<script src="{{ 'combo-builder.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Combo Builder",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Build your own combo"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Pick any 2 bars and add them to your cart together"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Combo Builder",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" }
+      ]
+    }
+  ]
+}
+{% endschema %}

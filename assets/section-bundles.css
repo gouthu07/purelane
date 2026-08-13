@@ -1,0 +1,103 @@
+.bundles-section {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.bundles-section__header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.bundles-section__heading {
+  font-size: 2.25rem;
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+}
+
+.bundles-section__subtext {
+  font-size: 1.1rem;
+  opacity: 0.75;
+  margin: 0;
+}
+
+.bundles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.bundle-card {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bundle-card__title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.bundle-card__items {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.bundle-card__image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.bundle-card__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.bundle-card__pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.bundle-card__original {
+  text-decoration: line-through;
+  opacity: 0.5;
+  font-size: 0.95rem;
+}
+
+.bundle-card__price {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.bundle-card__save {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a7f37;
+  background: #e6f4ea;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.bundle-card__add {
+  margin-top: auto;
+}
+
+@media screen and (max-width: 989px) {
+  .bundles-grid {
+    grid-template-columns: 1fr;
+  }
+}
