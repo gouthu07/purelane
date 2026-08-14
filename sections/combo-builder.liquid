@@ -39,7 +39,7 @@
                         {{ img_class | replace: 'tile:', '' }}
                       </span>
                     {%- elsif prod != blank and prod.featured_image != blank and img_class == blank -%}
-                      <span class="pimg" style="background-image: url('{{ prod.featured_image | image_url: width: 200 }}')"></span>
+                      <img src="{{ prod.featured_image | image_url: width: 200 }}" alt="{{ prod.title | escape }}" class="pimg" style="object-fit: contain;">
                     {%- else -%}
                       <span class="pimg {{ img_class }}" role="img" aria-label="{% if prod != blank %}{{ prod.title | escape }}{% endif %}"></span>
                     {%- endif -%}

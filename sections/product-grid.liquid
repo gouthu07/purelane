@@ -22,7 +22,11 @@
             {%- if block.settings.img_class != blank -%}
               <span class="pimg {{ block.settings.img_class }}" role="img" aria-label="{% if prod != blank %}{{ prod.title | escape }}{% endif %}"></span>
             {%- elsif prod != blank and prod.featured_image != blank -%}
-              <span class="pimg" style="background-image: url('{{ prod.featured_image | image_url: width: 300 }}');" role="img" aria-label="{{ prod.title | escape }}"></span>
+              <img src="{{ prod.featured_image | image_url: width: 300 }}" alt="{{ prod.title | escape }}" class="pimg" style="object-fit: contain;">
+            {%- else -%}
+              <div class="pimg" style="display: flex; align-items: center; justify-content: center; background: #f4f4f4; border-radius: 8px;">
+                {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              </div>
             {%- endif -%}
           </div>
           
