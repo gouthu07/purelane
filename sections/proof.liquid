@@ -1,0 +1,147 @@
+<section class="sec" id="proof-{{ section.id }}" data-scene="3">
+  <div class="wrap">
+    <div class="glass sec-pad rv in">
+      <div class="proof">
+        <div class="proof-l">
+          <span class="kicker">{{ section.settings.kicker | escape }}</span>
+          <h2 class="d2" style="margin-top:12px">{{ section.settings.heading | newline_to_br }}</h2>
+          <p class="body-s" style="max-width:40ch">{{ section.settings.text | escape }}</p>
+          {%- if section.settings.button_label != blank -%}
+            <a class="btn btn-primary" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+            </a>
+          {%- endif -%}
+        </div>
+        
+        <div class="glass-2 rot" id="rot" aria-hidden="true">
+          <div class="frame">
+            <span class="pimg p-kitchen on" role="img" aria-label="Purelane foaming kitchen cleaner" data-name="Kitchen cleaner" data-note="Foam lifts grease, no scrubbing"></span>
+            <span class="pimg p-tap" role="img" aria-label="Purelane tap cleaner and limescale remover" data-name="Tap &amp; limescale" data-note="Melts hard water stains"></span>
+            <span class="pimg p-laundry" role="img" aria-label="Purelane non-toxic laundry detergent" data-name="Laundry detergent" data-note="Tough on odour, soft on fabric"></span>
+            <span class="pimg p-toilet" role="img" aria-label="Purelane non-toxic toilet cleaner" data-name="Toilet cleaner" data-note="Kills 99.9% of germs"></span>
+            <span class="pimg p-floor" role="img" aria-label="Purelane natural herbal floor cleaner" data-name="Floor cleaner" data-note="Neem powered, pet safe"></span>
+            <span class="pimg p-dish" role="img" aria-label="Purelane organic dishwash liquid gel" data-name="Dishwash gel" data-note="Cuts grease, kind to hands"></span>
+          </div>
+          <div class="cap">
+            <b>Kitchen cleaner</b><span>Foam lifts grease, no scrubbing</span>
+          </div>
+          <div class="dots">
+            <i class="on"></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+        </div>
+        
+        <div class="glass-2 stats proof-stats" style="grid-column:1/-1">
+          {%- for block in section.blocks -%}
+            <div class="stat" {{ block.shopify_attributes }}>
+              <div class="ring">{{ block.settings.ring_text | escape }}</div>
+              <h5>{{ block.settings.title | escape }}</h5>
+              <p>{{ block.settings.text | escape }}</p>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Proof",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Why it works"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Tough on grime.\nGentle on everything else."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Every formula is built on plant-derived cleansers and essential oils. It behaves exactly like the cleaner you are used to, minus the things you never signed up for."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "See the ingredient list"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "ring_text",
+          "label": "Ring Text",
+          "default": "100%"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Stat heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Stat description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Proof",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "ring_text": "99.9%",
+            "title": "Germ kill",
+            "text": "Tested against germs and bacteria"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "ring_text": "0%",
+            "title": "Sulphates",
+            "text": "No SLS, chlorine or parabens"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "ring_text": "100%",
+            "title": "Plant based",
+            "text": "Cleansers derived from plants"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "ring_text": "4.8",
+            "title": "Rated",
+            "text": "Across 8,000+ verified reviews"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

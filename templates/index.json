@@ -278,13 +278,48 @@
         "duration": 50,
         "color_scheme": ""
       }
+    },
+    "ingredients": {
+      "type": "ingredients",
+      "settings": {}
+    },
+    "pillars": {
+      "type": "pillars",
+      "settings": {}
+    },
+    "proof": {
+      "type": "proof",
+      "settings": {}
+    },
+    "why_bundles": {
+      "type": "why-bundles",
+      "settings": {}
+    },
+    "bundle_categories": {
+      "type": "bundle-categories",
+      "settings": {}
+    },
+    "trust_bar": {
+      "type": "trust-bar",
+      "settings": {}
+    },
+    "email_signup": {
+      "type": "email-signup",
+      "settings": {}
     }
   },
   "order": [
     "hero_nxPY6e",
-    "product_grid_DjYdyh",
+    "reviews_rail_A8x2kQ",
+    "ingredients",
+    "pillars",
+    "proof",
     "combo_builder_Q6edMF",
     "bundles_9an4tx",
-    "reviews_rail_A8x2kQ"
+    "product_grid_DjYdyh",
+    "why_bundles",
+    "bundle_categories",
+    "trust_bar",
+    "email_signup"
   ]
 }

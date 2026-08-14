@@ -1,0 +1,105 @@
+<section class="sec" id="whybundles-{{ section.id }}" data-scene="4">
+  <div class="wrap">
+    <div class="glass sec-pad rv in">
+      <div class="panel-head">
+        <span class="kicker">{{ section.settings.kicker | escape }}</span>
+        <h2 class="d2" style="margin-top:12px">{{ section.settings.heading | escape }}</h2>
+      </div>
+      <div class="wb">
+        {%- for block in section.blocks -%}
+          <div class="wb-i" {{ block.shopify_attributes }}>
+            <span class="ci">
+              {{ block.settings.svg_code }}
+            </span>
+            <h4>{{ block.settings.title | escape }}</h4>
+            <p>{{ block.settings.text | escape }}</p>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why Bundles",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "The smarter way to shop"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why bundles beat buying single"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "reason",
+      "name": "Reason",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "svg_code",
+          "label": "SVG Code"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Reason heading"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Description",
+          "default": "Reason description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Bundles",
+      "blocks": [
+        {
+          "type": "reason",
+          "settings": {
+            "title": "Save up to 45%",
+            "text": "Versus buying the same products separately",
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3v18\"/><path d=\"M16.5 7.2C15.6 6 14 5.4 12 5.4c-2.4 0-4 1.1-4 2.9 0 2 1.7 2.7 4.2 3.3 2.7.6 4.3 1.4 4.3 3.4 0 1.9-1.7 3.1-4.5 3.1-2.2 0-3.8-.7-4.8-2\"/></svg>"
+          }
+        },
+        {
+          "type": "reason",
+          "settings": {
+            "title": "One flat price",
+            "text": "No calculators, no comparing carts",
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"3.4\"/><path d=\"m8.4 12.2 2.4 2.4 4.8-5\"/></svg>"
+          }
+        },
+        {
+          "type": "reason",
+          "settings": {
+            "title": "Curated by experts",
+            "text": "Products picked to work well together",
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m12 3.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L3.6 9.7l5.8-.8Z\"/></svg>"
+          }
+        },
+        {
+          "type": "reason",
+          "settings": {
+            "title": "Free shipping always",
+            "text": "Included on every bundle, all India",
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M2.6 16.4V7.2h10.2v9.2\"/><path d=\"M12.8 10.4h4l3.6 3.2v2.8h-7.6\"/><circle cx=\"6.6\" cy=\"18\" r=\"1.9\"/><circle cx=\"16.6\" cy=\"18\" r=\"1.9\"/></svg>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

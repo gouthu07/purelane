@@ -1,0 +1,82 @@
+<section class="sec" id="trust-bar-{{ section.id }}" data-scene="4">
+  <div class="wrap">
+    <div class="glass trust rv in">
+      {%- for block in section.blocks -%}
+        <div class="trust-i" {{ block.shopify_attributes }}>
+          {%- if block.settings.svg_code != blank -%}
+            {{ block.settings.svg_code }}
+          {%- elsif block.settings.image != blank -%}
+            <img src="{{ block.settings.image | image_url: width: 48 }}" alt="{{ block.settings.title | escape }}">
+          {%- endif -%}
+          <span>{{ block.settings.title | newline_to_br }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust Bar",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust Item",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "svg_code",
+          "label": "SVG Code"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Fallback Image"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Text",
+          "default": "Trust item\ntext"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Bar",
+      "blocks": [
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Plant derived\nformulas",
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z\"/><path d=\"M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z\"/></svg>"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Recyclable\npackaging",
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 8h16v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z\"/><path d=\"M4 8 6.5 3h11L20 8M9.5 12h5\"/></svg>"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Safe for\nkids & pets",
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 20s-7-4.4-7-9.4A4.1 4.1 0 0 1 12 8a4.1 4.1 0 0 1 7 2.6c0 5-7 9.4-7 9.4Z\"/></svg>"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Made in\nIndia",
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"8.6\"/><path d=\"M3.4 12h17.2M12 3.4c2.4 2.4 3.6 5.4 3.6 8.6S14.4 18.2 12 20.6c-2.4-2.4-3.6-5.4-3.6-8.6S9.6 5.8 12 3.4Z\"/></svg>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

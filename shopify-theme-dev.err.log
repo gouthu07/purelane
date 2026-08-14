@@ -1,0 +1,31 @@
+╭─ success ────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│  Preview your theme (t)                                                      │
+│    • [1]                                                                     │
+│                                                                              │
+│  Next steps                                                                  │
+│    • Share your theme preview (p) [2] https://purelane-assignment-zl49rwex.  │
+│      myshopify.com/?preview_theme_id=156956000396                            │
+│    • Customize your theme at the theme editor (e) [3]                        │
+│    • Preview your gift cards (g) [4]                                         │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+[1] http://127.0.0.1:9293
+[2] https://purelane-assignment-zl49rwex.myshopify.com/?preview_theme_id=156956000396
+[3] https://purelane-assignment-zl49rwex.myshopify.com/admin/themes/156956000396/editor?hr=9293
+[4] http://127.0.0.1:9293/gift_cards/[store_id]/preview
+
+• 01:14:39 Request »    GET 200 / 
+• 19:59:43 Request »    GET 200 / 
+• 20:21:48  Synced » update assets/purelane-global.css
+• 21:27:49  Synced » update layout/theme.liquid
+• 21:31:45  Synced » update sections/ingredients.liquid
+• 21:32:36  Synced » update sections/pillars.liquid
+• 21:33:12  Synced » update sections/proof.liquid
+• 21:33:59  Synced » update sections/bundle-categories.liquid
+• 21:33:59  Synced » update sections/why-bundles.liquid
+• 21:35:15  Synced » update sections/trust-bar.liquid
+• 21:35:15  Synced » update sections/email-signup.liquid
+• 21:36:34  Synced » update sections/header.liquid
+• 21:41:46  Synced » update sections/footer.liquid
+• 21:52:44  Synced » update templates/index.json
