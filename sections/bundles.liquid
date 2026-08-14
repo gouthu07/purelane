@@ -1,160 +1,59 @@
-{{ 'section-bundles.css' | asset_url | stylesheet_tag }}
-
-<section class="bundles-section color-{{ section.settings.color_scheme }}" aria-label="{{ section.settings.heading | default: 'Bundles' | escape }}">
-  <div class="bundles-section__header">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="bundles-section__heading">{{ section.settings.heading | escape }}</h2>
-    {%- endif -%}
-    {%- if section.settings.subtext != blank -%}
-      <p class="bundles-section__subtext">{{ section.settings.subtext | escape }}</p>
-    {%- endif -%}
-  </div>
-
-  <div class="bundles-grid">
-    {%- for block in section.blocks -%}
-      {%- assign p1 = block.settings.product_1 -%}
-      {%- assign p2 = block.settings.product_2 -%}
-      {%- assign p3 = block.settings.product_3 -%}
-      {%- assign p4 = block.settings.product_4 -%}
-      {%- assign discount = block.settings.discount_percent -%}
-
-      {%- assign original_total = 0 -%}
-      {%- assign variant_ids = '' -%}
-      {%- assign bundle_available = false -%}
-      {%- assign selected_count = 0 -%}
-      {%- assign unavailable_count = 0 -%}
-
-      {%- if p1 != blank -%}
-        {%- assign selected_count = selected_count | plus: 1 -%}
-        {%- assign original_total = original_total | plus: p1.price -%}
-        {%- if p1.selected_or_first_available_variant.available -%}
-          {%- assign variant_ids = variant_ids | append: p1.selected_or_first_available_variant.id | append: ',' -%}
-        {%- else -%}
-          {%- assign unavailable_count = unavailable_count | plus: 1 -%}
-        {%- endif -%}
-      {%- endif -%}
-      {%- if p2 != blank -%}
-        {%- assign selected_count = selected_count | plus: 1 -%}
-        {%- assign original_total = original_total | plus: p2.price -%}
-        {%- if p2.selected_or_first_available_variant.available -%}
-          {%- assign variant_ids = variant_ids | append: p2.selected_or_first_available_variant.id | append: ',' -%}
-        {%- else -%}
-          {%- assign unavailable_count = unavailable_count | plus: 1 -%}
-        {%- endif -%}
-      {%- endif -%}
-      {%- if p3 != blank -%}
-        {%- assign selected_count = selected_count | plus: 1 -%}
-        {%- assign original_total = original_total | plus: p3.price -%}
-        {%- if p3.selected_or_first_available_variant.available -%}
-          {%- assign variant_ids = variant_ids | append: p3.selected_or_first_available_variant.id | append: ',' -%}
-        {%- else -%}
-          {%- assign unavailable_count = unavailable_count | plus: 1 -%}
-        {%- endif -%}
-      {%- endif -%}
-      {%- if p4 != blank -%}
-        {%- assign selected_count = selected_count | plus: 1 -%}
-        {%- assign original_total = original_total | plus: p4.price -%}
-        {%- if p4.selected_or_first_available_variant.available -%}
-          {%- assign variant_ids = variant_ids | append: p4.selected_or_first_available_variant.id | append: ',' -%}
-        {%- else -%}
-          {%- assign unavailable_count = unavailable_count | plus: 1 -%}
-        {%- endif -%}
-      {%- endif -%}
-      {%- if selected_count > 0 and unavailable_count == 0 -%}
-        {%- assign bundle_available = true -%}
-      {%- endif -%}
-
-      {%- assign discount_multiplier = 100 | minus: discount | times: 1.0 | divided_by: 100 -%}
-      {%- assign bundle_price = original_total | times: discount_multiplier | round -%}
-
-      <div class="bundle-card" {{ block.shopify_attributes }}>
-        <h3 class="bundle-card__title">{{ block.settings.bundle_title | escape }}</h3>
-
-        <div class="bundle-card__items">
-          {%- if p1 != blank -%}
-            {%- if p1.featured_image != blank -%}
-              {{ p1.featured_image | image_url: width: 150 | image_tag:
-                loading: 'lazy',
-                widths: '120, 150',
-                sizes: '60px',
-                alt: p1.title,
-                class: 'bundle-card__image'
-              }}
-            {%- else -%}
-              {{ 'product-1' | placeholder_svg_tag: 'bundle-card__image placeholder' }}
-            {%- endif -%}
-          {%- endif -%}
-          {%- if p2 != blank -%}
-            {%- if p2.featured_image != blank -%}
-              {{ p2.featured_image | image_url: width: 150 | image_tag:
-                loading: 'lazy',
-                widths: '120, 150',
-                sizes: '60px',
-                alt: p2.title,
-                class: 'bundle-card__image'
-              }}
-            {%- else -%}
-              {{ 'product-1' | placeholder_svg_tag: 'bundle-card__image placeholder' }}
-            {%- endif -%}
-          {%- endif -%}
-          {%- if p3 != blank -%}
-            {%- if p3.featured_image != blank -%}
-              {{ p3.featured_image | image_url: width: 150 | image_tag:
-                loading: 'lazy',
-                widths: '120, 150',
-                sizes: '60px',
-                alt: p3.title,
-                class: 'bundle-card__image'
-              }}
-            {%- else -%}
-              {{ 'product-1' | placeholder_svg_tag: 'bundle-card__image placeholder' }}
-            {%- endif -%}
-          {%- endif -%}
-          {%- if p4 != blank -%}
-            {%- if p4.featured_image != blank -%}
-              {{ p4.featured_image | image_url: width: 150 | image_tag:
-                loading: 'lazy',
-                widths: '120, 150',
-                sizes: '60px',
-                alt: p4.title,
-                class: 'bundle-card__image'
-              }}
-            {%- else -%}
-              {{ 'product-1' | placeholder_svg_tag: 'bundle-card__image placeholder' }}
-            {%- endif -%}
-          {%- endif -%}
-        </div>
-
-        <ul class="bundle-card__list">
-          {%- if p1 != blank -%}<li>{{ p1.title | escape }}{% unless p1.selected_or_first_available_variant.available %} <span class="bundle-card__sold-out">(Sold out)</span>{% endunless %}</li>{%- endif -%}
-          {%- if p2 != blank -%}<li>{{ p2.title | escape }}{% unless p2.selected_or_first_available_variant.available %} <span class="bundle-card__sold-out">(Sold out)</span>{% endunless %}</li>{%- endif -%}
-          {%- if p3 != blank -%}<li>{{ p3.title | escape }}{% unless p3.selected_or_first_available_variant.available %} <span class="bundle-card__sold-out">(Sold out)</span>{% endunless %}</li>{%- endif -%}
-          {%- if p4 != blank -%}<li>{{ p4.title | escape }}{% unless p4.selected_or_first_available_variant.available %} <span class="bundle-card__sold-out">(Sold out)</span>{% endunless %}</li>{%- endif -%}
-        </ul>
-
-        {%- if selected_count > 0 -%}
-          <div class="bundle-card__pricing">
-            <span class="bundle-card__original">{{ original_total | money }}</span>
-            <span class="bundle-card__price">{{ bundle_price | money }}</span>
-            <span class="bundle-card__save">Save {{ discount }}%</span>
-          </div>
-        {%- endif -%}
-
-        <button
-          type="button"
-          class="button bundle-card__add"
-          data-bundle-add
-          data-variant-ids="{{ variant_ids }}"
-          {% unless bundle_available %}disabled aria-disabled="true"{% endunless %}
-        >
-          {%- if bundle_available -%}Add bundle to cart{%- else -%}Sold out{%- endif -%}
-        </button>
+<section class="sec" id="bundles-{{ section.id }}" data-scene="3">
+  <div class="wrap">
+    <div class="glass sec-pad rv in" style="margin-bottom:16px">
+      <div class="panel-head" style="margin-bottom:0">
+        <span class="kicker">{{ section.settings.kicker | escape }}</span>
+        <h2 class="d2" style="margin-top:12px">{{ section.settings.heading | escape }}</h2>
+        <p class="lede" style="margin:0 auto">{{ section.settings.subtext | escape }}</p>
       </div>
-    {%- endfor -%}
+    </div>
+    <div class="tiers">
+      {%- for block in section.blocks -%}
+        <article class="glass tier {% if block.settings.is_best %}best{% endif %} rv in" {{ block.shopify_attributes }}>
+          <span class="tag">{{ block.settings.tag | escape }}</span>
+          
+          <div class="tierpix {% if block.settings.img_class_4 != blank or block.settings.img_class_5 != blank %}five{% endif %}" aria-hidden="true">
+            {%- for i in (1..5) -%}
+              {%- capture img_setting -%}img_class_{{ i }}{%- endcapture -%}
+              {%- assign img_class = block.settings[img_setting] -%}
+              {%- if img_class != blank -%}
+                <span class="pimg {{ img_class }}" role="img"></span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          
+          <div class="qty">{{ block.settings.product_count }}<small>Products</small></div>
+          
+          {%- assign bundle_price = block.settings.bundle_price | times: 100 -%}
+          {%- assign original_price = block.settings.original_price | times: 100 -%}
+          <div class="price">
+            {{ bundle_price | money_without_trailing_zeros }} <s>{{ original_price | money_without_trailing_zeros }}</s>
+          </div>
+          
+          {%- assign per_product = bundle_price | divided_by: block.settings.product_count -%}
+          <p class="body-s" style="font-size:12px">Flat {{ per_product | money_without_trailing_zeros }} per product</p>
+          
+          <ul>
+            {%- for i in (1..4) -%}
+              {%- capture feature_setting -%}feature_{{ i }}{%- endcapture -%}
+              {%- assign feature = block.settings[feature_setting] -%}
+              {%- if feature != blank -%}
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>{{ feature | escape }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+          
+          <a class="btn {% if block.settings.is_best %}btn-primary{% else %}btn-ghost{% endif %}" href="{{ block.settings.button_link | default: '#shop' }}">
+            {{ block.settings.button_label | escape }}
+            {%- if block.settings.is_best -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+            {%- endif -%}
+          </a>
+        </article>
+      {%- endfor -%}
+    </div>
   </div>
 </section>
-
-<script src="{{ 'bundles.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
@@ -162,74 +61,177 @@
   "settings": [
     {
       "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Build your bundle"
+    },
+    {
+      "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Curated bundles"
+      "default": "One box. Every room."
     },
     {
       "type": "textarea",
       "id": "subtext",
       "label": "Subtext",
-      "default": "Save more with our hand-picked bundles"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
+      "default": "Mix and match across kitchen, laundry, home and skin. One flat price, no code needed, free shipping either way."
     }
   ],
   "blocks": [
     {
-      "type": "bundle",
-      "name": "Bundle",
+      "type": "tier",
+      "name": "Bundle Tier",
       "settings": [
         {
+          "type": "checkbox",
+          "id": "is_best",
+          "label": "Highlight as best tier",
+          "default": false
+        },
+        {
           "type": "text",
-          "id": "bundle_title",
-          "label": "Bundle name",
-          "default": "Bundle name"
+          "id": "tag",
+          "label": "Tag",
+          "default": "Starter"
         },
         {
-          "type": "product",
-          "id": "product_1",
-          "label": "Product 1"
+          "type": "number",
+          "id": "product_count",
+          "label": "Number of products",
+          "default": 2
         },
         {
-          "type": "product",
-          "id": "product_2",
-          "label": "Product 2"
+          "type": "number",
+          "id": "bundle_price",
+          "label": "Bundle Price (Numeric)",
+          "default": 349
         },
         {
-          "type": "product",
-          "id": "product_3",
-          "label": "Product 3 (optional)"
+          "type": "number",
+          "id": "original_price",
+          "label": "Original Price (Numeric)",
+          "default": 598
         },
         {
-          "type": "product",
-          "id": "product_4",
-          "label": "Product 4 (optional)"
+          "type": "text",
+          "id": "button_label",
+          "label": "Button Label",
+          "default": "Build this box"
         },
         {
-          "type": "range",
-          "id": "discount_percent",
-          "label": "Discount %",
-          "min": 0,
-          "max": 50,
-          "step": 5,
-          "default": 15
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link"
+        },
+        {
+          "type": "header",
+          "content": "Images"
+        },
+        {
+          "type": "text",
+          "id": "img_class_1",
+          "label": "Image 1 CSS class",
+          "default": "p-combo2"
+        },
+        {
+          "type": "text",
+          "id": "img_class_2",
+          "label": "Image 2 CSS class"
+        },
+        {
+          "type": "text",
+          "id": "img_class_3",
+          "label": "Image 3 CSS class"
+        },
+        {
+          "type": "text",
+          "id": "img_class_4",
+          "label": "Image 4 CSS class"
+        },
+        {
+          "type": "text",
+          "id": "img_class_5",
+          "label": "Image 5 CSS class"
+        },
+        {
+          "type": "header",
+          "content": "Features"
+        },
+        {
+          "type": "text",
+          "id": "feature_1",
+          "label": "Feature 1",
+          "default": "Pick any two products"
+        },
+        {
+          "type": "text",
+          "id": "feature_2",
+          "label": "Feature 2",
+          "default": "Free shipping across India"
+        },
+        {
+          "type": "text",
+          "id": "feature_3",
+          "label": "Feature 3"
+        },
+        {
+          "type": "text",
+          "id": "feature_4",
+          "label": "Feature 4"
         }
       ]
     }
   ],
-  "max_blocks": 6,
   "presets": [
     {
       "name": "Bundles",
       "blocks": [
-        { "type": "bundle" },
-        { "type": "bundle" },
-        { "type": "bundle" }
+        {
+          "type": "tier",
+          "settings": {
+            "tag": "Starter",
+            "product_count": 2,
+            "bundle_price": 349,
+            "original_price": 598,
+            "img_class_1": "p-combo2",
+            "feature_1": "Pick any two products",
+            "feature_2": "Free shipping across India"
+          }
+        },
+        {
+          "type": "tier",
+          "settings": {
+            "tag": "Most popular",
+            "is_best": true,
+            "product_count": 3,
+            "bundle_price": 499,
+            "original_price": 897,
+            "img_class_1": "p-kitchen",
+            "img_class_2": "p-tap",
+            "img_class_3": "p-dish",
+            "feature_1": "Pick any three products",
+            "feature_2": "Covers kitchen and laundry",
+            "feature_3": "Free shipping across India"
+          }
+        },
+        {
+          "type": "tier",
+          "settings": {
+            "tag": "Whole home",
+            "product_count": 5,
+            "bundle_price": 799,
+            "original_price": 1495,
+            "img_class_1": "p-kitchen",
+            "img_class_2": "p-tap",
+            "img_class_3": "p-floor",
+            "img_class_4": "p-toilet",
+            "img_class_5": "p-laundry",
+            "feature_1": "Pick any five products",
+            "feature_2": "Every room in one order",
+            "feature_3": "Free shipping across India"
+          }
+        }
       ]
     }
   ]

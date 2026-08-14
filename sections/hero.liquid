@@ -1,39 +1,82 @@
-{{ 'section-hero.css' | asset_url | stylesheet_tag }}
+<section class="hero" data-scene="1">
+  <div class="hero-grid">
 
-<section class="hero-section color-{{ section.settings.color_scheme }}" aria-label="{{ section.settings.heading | default: 'Hero' | escape }}">
-  <div class="hero-section__media">
-    {%- if section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 2000 | image_tag:
-        loading: 'eager',
-        fetchpriority: 'high',
-        widths: '375, 750, 1100, 1500, 2000',
-        sizes: '100vw',
-        alt: section.settings.heading,
-        class: 'hero-section__image'
-      }}
-    {%- else -%}
-      {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero-section__image placeholder' }}
-    {%- endif -%}
-  </div>
+    <div class="badges glass-2" aria-label="Product promises">
+      <div class="badge">
+        <span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg></span>
+        <span>{{ section.settings.badge_1_text | newline_to_br }}</span>
+      </div>
+      <div class="badge">
+        <span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg></span>
+        <span>{{ section.settings.badge_2_text | newline_to_br }}</span>
+      </div>
+      <div class="badge">
+        <span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg></span>
+        <span>{{ section.settings.badge_3_text | newline_to_br }}</span>
+      </div>
+    </div>
 
-  <div class="hero-section__content hero-section__content--{{ section.settings.content_position }}">
-    {%- if section.settings.heading != blank -%}
-      <h1 class="hero-section__heading">{{ section.settings.heading | escape }}</h1>
-    {%- endif -%}
+    <div class="hero-copy">
+      <h1 class="d1 rv in">{{ section.settings.heading }}</h1>
+      <div class="rule rv rv-d1">
+        <i></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+        <i></i>
+      </div>
+      <p class="lede rv rv-d2">{{ section.settings.subtext | escape }}</p>
+      <div class="hero-cta rv rv-d3">
+        <a class="btn btn-primary" href="{{ section.settings.button_1_link }}">{{ section.settings.button_1_label | escape }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="{{ section.settings.button_2_link }}">{{ section.settings.button_2_label | escape }}</a>
+      </div>
 
-    {%- if section.settings.subtext != blank -%}
-      <p class="hero-section__subtext">{{ section.settings.subtext | escape }}</p>
-    {%- endif -%}
+      <div class="badgestrip rv rv-d4">
+        <div class="glass-2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+          {{ section.settings.badge_1_text | replace: '<br>', ' ' | replace: '\n', ' ' }}
+        </div>
+        <div class="glass-2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg>
+          {{ section.settings.badge_2_text | replace: '<br>', ' ' | replace: '\n', ' ' }}
+        </div>
+        <div class="glass-2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg>
+          {{ section.settings.badge_3_text | replace: '<br>', ' ' | replace: '\n', ' ' }}
+        </div>
+      </div>
+    </div>
 
-    {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
-      <a href="{{ section.settings.button_link }}" class="button hero-section__button">
-        {{ section.settings.button_label | escape }}
-      </a>
-    {%- elsif section.settings.button_label != blank -%}
-      <span class="button hero-section__button hero-section__button--disabled" aria-disabled="true">
-        {{ section.settings.button_label | escape }}
-      </span>
-    {%- endif -%}
+    <div class="hero-prod" id="heroProd">
+      <div class="hstage" id="hstage">
+        {%- for block in section.blocks -%}
+          <div class="hslide hs{{ forloop.index }} {% if forloop.first %}on{% endif %}" data-n="{{ forloop.index }}" {{ block.shopify_attributes }}>
+            {%- if forloop.index == 1 -%}
+              <span class="hp {{ block.settings.img_1 }} a d1" role="img" aria-label="Product image"></span>
+            {%- elsif forloop.index == 2 -%}
+              <span class="hp {{ block.settings.img_1 }} a d1" role="img" aria-label="Product image"></span>
+              <span class="hp {{ block.settings.img_2 }} b d2" role="img" aria-label="Product image"></span>
+            {%- elsif forloop.index == 3 -%}
+              <span class="hp {{ block.settings.img_1 }} a d1" role="img" aria-label="Product image"></span>
+              <span class="hp {{ block.settings.img_2 }} b d2" role="img" aria-label="Product image"></span>
+              <span class="hp {{ block.settings.img_3 }} c d3" role="img" aria-label="Product image"></span>
+            {%- endif -%}
+            
+            <div class="glass-2 ptag">
+              <span class="lbl">{{ block.settings.title | escape }}</span>
+              <span class="val"><strong>{{ block.settings.price }}</strong><s>{{ block.settings.compare_price }}</s></span>
+              <span class="cut">{{ block.settings.discount_text | escape }}</span>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="hdots" id="hdots">
+        {%- for block in section.blocks -%}
+          <button type="button" class="{% if forloop.first %}on{% endif %}" aria-label="Show {{ forloop.index }} product(s)"></button>
+        {%- endfor -%}
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -42,54 +85,147 @@
   "name": "Hero",
   "settings": [
     {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Hero image"
-    },
-    {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
-      "label": "Heading",
-      "default": "Welcome to our store"
+      "label": "Heading (HTML allowed)",
+      "default": "Clean<br>That<br><span class=\"lime\">Lasts</span>"
     },
     {
       "type": "textarea",
       "id": "subtext",
       "label": "Subtext",
-      "default": "Discover our latest collection"
+      "default": "Homecare that works on the toughest grime, made from plants. Kind to your home, your family and the world outside it."
     },
     {
       "type": "text",
-      "id": "button_label",
-      "label": "Button label",
+      "id": "button_1_label",
+      "label": "Primary Button Label",
       "default": "Shop now"
     },
     {
       "type": "url",
-      "id": "button_link",
-      "label": "Button link"
+      "id": "button_1_link",
+      "label": "Primary Button Link"
     },
     {
-      "type": "select",
-      "id": "content_position",
-      "label": "Content position",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
-      ],
-      "default": "center"
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Secondary Button Label",
+      "default": "How it works"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "textarea",
+      "id": "badge_1_text",
+      "label": "Badge 1 Text",
+      "default": "Plant\npowered"
+    },
+    {
+      "type": "textarea",
+      "id": "badge_2_text",
+      "label": "Badge 2 Text",
+      "default": "Safe for\nkids & pets"
+    },
+    {
+      "type": "textarea",
+      "id": "badge_3_text",
+      "label": "Badge 3 Text",
+      "default": "Zero harsh\nchemicals"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Product Slide",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Label",
+          "default": "Single bottle"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "₹200"
+        },
+        {
+          "type": "text",
+          "id": "compare_price",
+          "label": "Compare at price",
+          "default": "₹299"
+        },
+        {
+          "type": "text",
+          "id": "discount_text",
+          "label": "Discount label",
+          "default": "33% off"
+        },
+        {
+          "type": "text",
+          "id": "img_1",
+          "label": "Image 1 CSS class",
+          "default": "p-kbtl"
+        },
+        {
+          "type": "text",
+          "id": "img_2",
+          "label": "Image 2 CSS class",
+          "default": "p-tbtl"
+        },
+        {
+          "type": "text",
+          "id": "img_3",
+          "label": "Image 3 CSS class",
+          "default": "p-mbtl"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Hero"
+      "name": "Hero",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Single bottle",
+            "price": "₹200",
+            "compare_price": "₹299",
+            "discount_text": "33% off",
+            "img_1": "p-kbtl"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Any 2 products",
+            "price": "₹349",
+            "compare_price": "₹598",
+            "discount_text": "Save ₹249",
+            "img_1": "p-tbtl",
+            "img_2": "p-kbtl"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Any 3 products",
+            "price": "₹499",
+            "compare_price": "₹897",
+            "discount_text": "Save ₹398",
+            "img_1": "p-tbtl",
+            "img_2": "p-mbtl",
+            "img_3": "p-kbtl"
+          }
+        }
+      ]
     }
   ]
 }

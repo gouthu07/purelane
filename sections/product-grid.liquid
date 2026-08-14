@@ -1,43 +1,51 @@
-{{ 'section-product-grid.css' | asset_url | stylesheet_tag }}
-
-<section class="product-grid-section color-{{ section.settings.color_scheme }}" aria-label="{{ section.settings.heading | default: 'Product grid' | escape }}">
-  <div class="product-grid-section__header">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="product-grid-section__heading">{{ section.settings.heading | escape }}</h2>
-    {%- endif -%}
-    {%- if section.settings.subtext != blank -%}
-      <p class="product-grid-section__subtext">{{ section.settings.subtext | escape }}</p>
-    {%- endif -%}
-  </div>
-
-  <div class="product-grid">
-    {%- for block in section.blocks -%}
-      {%- assign product = block.settings.product -%}
-      {%- if product != blank -%}
-        <a href="{{ product.url }}" class="product-card" {{ block.shopify_attributes }}>
-          <div class="product-card__media">
-            {%- if product.featured_image != blank -%}
-              {{ product.featured_image | image_url: width: 800 | image_tag:
-                loading: 'lazy',
-                widths: '300, 450, 600, 800',
-                sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
-                alt: product.title,
-                class: 'product-card__image'
-              }}
-            {%- else -%}
-              {{ 'product-1' | placeholder_svg_tag: 'product-card__image placeholder' }}
+<section class="sec" id="shop-{{ section.id }}" data-scene="3">
+  <div class="wrap">
+    <div class="panel-head rv in">
+      <span class="kicker">{{ section.settings.kicker | escape }}</span>
+      <h2 class="d2" style="margin-top:12px">{{ section.settings.heading | escape }}</h2>
+      <div class="rule">
+        <i></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+        <i></i>
+      </div>
+    </div>
+    
+    <div class="shelf">
+      {%- for block in section.blocks -%}
+        {%- assign prod = block.settings.product -%}
+        <article class="glass card rv in" {{ block.shopify_attributes }}>
+          <div class="shot">
+            {%- if block.settings.pill_text != blank -%}
+              <span class="pill">{{ block.settings.pill_text | escape }}</span>
             {%- endif -%}
-            {%- unless product.available -%}
-              <span class="product-card__badge">Sold out</span>
-            {%- endunless -%}
+            
+            {%- if block.settings.img_class != blank -%}
+              <span class="pimg {{ block.settings.img_class }}" role="img" aria-label="{% if prod != blank %}{{ prod.title | escape }}{% endif %}"></span>
+            {%- elsif prod != blank and prod.featured_image != blank -%}
+              <span class="pimg" style="background-image: url('{{ prod.featured_image | image_url: width: 300 }}');" role="img" aria-label="{{ prod.title | escape }}"></span>
+            {%- endif -%}
           </div>
-          <div class="product-card__info">
-            <h3 class="product-card__title">{{ product.title | escape }}</h3>
-            <span class="product-card__price">{{ product.price | money }}</span>
+          
+          <h4>{%- if prod != blank -%}{{ prod.title | escape }}{%- else -%}Product Title{%- endif -%}</h4>
+          <div class="rate"><b>&#9733; {{ block.settings.rating }}</b> &middot; {{ block.settings.reviews_count }} reviews</div>
+          
+          <div class="pr">
+            {%- if prod != blank -%}
+              <strong>{{ prod.price | money_without_trailing_zeros }}</strong>
+              {%- if prod.compare_at_price > prod.price -%}
+                <s>{{ prod.compare_at_price | money_without_trailing_zeros }}</s>
+                {%- assign savings = prod.compare_at_price | minus: prod.price | times: 100.0 | divided_by: prod.compare_at_price | round -%}
+                <em>{{ savings }}% off</em>
+              {%- endif -%}
+            {%- else -%}
+              <strong>₹200</strong><s>₹299</s><em>33% off</em>
+            {%- endif -%}
           </div>
-        </a>
-      {%- endif -%}
-    {%- endfor -%}
+          
+          <button class="btn btn-ghost btn-sm" onclick="{% if prod != blank %}window.location.href='{{ prod.url }}'{% endif %}">{{ section.settings.button_label | escape }}</button>
+        </article>
+      {%- endfor -%}
+    </div>
   </div>
 </section>
 
@@ -47,44 +55,100 @@
   "settings": [
     {
       "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Bestsellers"
+    },
+    {
+      "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Shop our bars"
+      "default": "Loved by 30,000 homes"
     },
     {
-      "type": "textarea",
-      "id": "subtext",
-      "label": "Subtext",
-      "default": "Clean ingredients, real energy"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
+      "type": "text",
+      "id": "button_label",
+      "label": "Add to Cart Button Label",
+      "default": "Add to cart"
     }
   ],
   "blocks": [
     {
       "type": "product",
-      "name": "Product",
+      "name": "Product Card",
       "settings": [
         {
           "type": "product",
           "id": "product",
           "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "pill_text",
+          "label": "Pill Badge Text",
+          "default": "Best seller"
+        },
+        {
+          "type": "text",
+          "id": "rating",
+          "label": "Rating",
+          "default": "4.8"
+        },
+        {
+          "type": "number",
+          "id": "reviews_count",
+          "label": "Reviews count",
+          "default": 237
+        },
+        {
+          "type": "text",
+          "id": "img_class",
+          "label": "CSS Image Class (Overrides product image)",
+          "default": "p-tap"
         }
       ]
     }
   ],
-  "max_blocks": 8,
   "presets": [
     {
       "name": "Product Grid",
       "blocks": [
-        { "type": "product" },
-        { "type": "product" },
-        { "type": "product" }
+        {
+          "type": "product",
+          "settings": {
+            "pill_text": "Best seller",
+            "rating": "4.8",
+            "reviews_count": 237,
+            "img_class": "p-tap"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "pill_text": "Best seller",
+            "rating": "4.8",
+            "reviews_count": 254,
+            "img_class": "p-kitchen"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "pill_text": "Top rated",
+            "rating": "4.8",
+            "reviews_count": 231,
+            "img_class": "p-metal"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "pill_text": "New",
+            "rating": "4.8",
+            "reviews_count": 183,
+            "img_class": "p-wm"
+          }
+        }
       ]
     }
   ]
