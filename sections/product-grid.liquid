@@ -19,7 +19,9 @@
               <span class="pill">{{ block.settings.pill_text | escape }}</span>
             {%- endif -%}
             
-            {%- if block.settings.img_class != blank -%}
+            {%- if block.settings.custom_image != blank -%}
+              <img src="{{ block.settings.custom_image | image_url: width: 300 }}" alt="{{ block.settings.custom_image.alt | escape }}" class="pimg" style="object-fit: contain;">
+            {%- elsif block.settings.img_class != blank -%}
               <span class="pimg {{ block.settings.img_class }}" role="img" aria-label="{% if prod != blank %}{{ prod.title | escape }}{% endif %}"></span>
             {%- elsif prod != blank and prod.featured_image != blank -%}
               <img src="{{ prod.featured_image | image_url: width: 300 }}" alt="{{ prod.title | escape }}" class="pimg" style="object-fit: contain;">
@@ -85,6 +87,11 @@
           "type": "product",
           "id": "product",
           "label": "Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Image (Overrides product image)"
         },
         {
           "type": "text",
