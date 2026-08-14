@@ -94,64 +94,45 @@
     "combo_builder_Q6edMF": {
       "type": "combo-builder",
       "blocks": {
-        "product_P7tpCY": {
-          "type": "product",
+        "combo_1": {
+          "type": "combo",
           "settings": {
-            "product": "almond-cacao-bar"
+            "title": "Kitchen essentials",
+            "product_count": 3,
+            "bundle_price": 499,
+            "original_price": 897,
+            "save_badge_text": "You save \u20b9398",
+            "flag_text": "Most popular",
+            "img_class_1": "p-kitchen",
+            "reason_1": "Cuts grease instantly",
+            "img_class_2": "p-dish",
+            "reason_2": "Squeaky clean dishes",
+            "img_class_3": "p-tap",
+            "reason_3": "Melts hard water stains"
           }
         },
-        "product_MNegMP": {
-          "type": "product",
+        "combo_2": {
+          "type": "combo",
           "settings": {
-            "product": "berry-oats-bar"
-          }
-        },
-        "product_7xXPwp": {
-          "type": "product",
-          "settings": {
-            "product": "classic-trail-mix-bar"
-          }
-        },
-        "product_bmEzcf": {
-          "type": "product",
-          "settings": {
-            "product": "coconut-cashew-bar"
-          }
-        },
-        "product_3JiKA8": {
-          "type": "product",
-          "settings": {
-            "product": "dark-chocolate-sea-salt-bar"
-          }
-        },
-        "product_AtCz6r": {
-          "type": "product",
-          "settings": {
-            "product": "matcha-white-chocolate-bar"
-          }
-        },
-        "product_XdJCyH": {
-          "type": "product",
-          "settings": {
-            "product": "mixed-nuts-energy-bar"
-          }
-        },
-        "product_TGgefx": {
-          "type": "product",
-          "settings": {
-            "product": "peanut-butter-crunch-bar"
+            "title": "Complete home bundle",
+            "is_hero": true,
+            "product_count": 5,
+            "bundle_price": 799,
+            "original_price": 1495,
+            "save_badge_text": "Biggest saving",
+            "flag_text": "Best value",
+            "img_class_1": "p-kitchen",
+            "reason_1": "Cuts grease instantly",
+            "img_class_2": "p-floor",
+            "reason_2": "Kills 99.9% germs",
+            "img_class_3": "p-handwash",
+            "reason_3": "Gentle hydration for hands"
           }
         }
       },
       "block_order": [
-        "product_P7tpCY",
-        "product_MNegMP",
-        "product_7xXPwp",
-        "product_bmEzcf",
-        "product_3JiKA8",
-        "product_AtCz6r",
-        "product_XdJCyH",
-        "product_TGgefx"
+        "combo_1",
+        "combo_2"
       ],
       "name": "Combo Builder",
       "settings": {
@@ -163,44 +144,56 @@
     "bundles_9an4tx": {
       "type": "bundles",
       "blocks": {
-        "bundle_LRFMP9": {
-          "type": "bundle",
+        "tier_1": {
+          "type": "tier",
           "settings": {
-            "bundle_title": "\"Chocolate Lovers\"",
-            "product_1": "almond-cacao-bar",
-            "product_2": "dark-chocolate-sea-salt-bar",
-            "product_3": "matcha-white-chocolate-bar",
-            "product_4": "",
-            "discount_percent": 15
+            "tag": "Starter",
+            "product_count": 2,
+            "bundle_price": 349,
+            "original_price": 598,
+            "img_class_1": "p-combo2",
+            "feature_1": "Pick any two products",
+            "feature_2": "Free shipping across India"
           }
         },
-        "bundle_3DyAVd": {
-          "type": "bundle",
+        "tier_2": {
+          "type": "tier",
           "settings": {
-            "bundle_title": "\"Protein Pack\"",
-            "product_1": "peanut-butter-crunch-bar",
-            "product_2": "mixed-nuts-energy-bar",
-            "product_3": "berry-oats-bar",
-            "product_4": "",
-            "discount_percent": 15
+            "tag": "Most popular",
+            "is_best": true,
+            "product_count": 3,
+            "bundle_price": 499,
+            "original_price": 897,
+            "img_class_1": "p-kitchen",
+            "img_class_2": "p-tap",
+            "img_class_3": "p-dish",
+            "feature_1": "Pick any three products",
+            "feature_2": "Covers kitchen and laundry",
+            "feature_3": "Free shipping across India"
           }
         },
-        "bundle_n3yPjR": {
-          "type": "bundle",
+        "tier_3": {
+          "type": "tier",
           "settings": {
-            "bundle_title": "\"Everyday Essentials\"",
-            "product_1": "classic-trail-mix-bar",
-            "product_2": "coconut-cashew-bar",
-            "product_3": "berry-oats-bar",
-            "product_4": "",
-            "discount_percent": 15
+            "tag": "Whole home",
+            "product_count": 5,
+            "bundle_price": 799,
+            "original_price": 1495,
+            "img_class_1": "p-kitchen",
+            "img_class_2": "p-tap",
+            "img_class_3": "p-floor",
+            "img_class_4": "p-toilet",
+            "img_class_5": "p-laundry",
+            "feature_1": "Pick any five products",
+            "feature_2": "Every room in one order",
+            "feature_3": "Free shipping across India"
           }
         }
       },
       "block_order": [
-        "bundle_LRFMP9",
-        "bundle_3DyAVd",
-        "bundle_n3yPjR"
+        "tier_1",
+        "tier_2",
+        "tier_3"
       ],
       "name": "Bundles",
       "settings": {
